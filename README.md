@@ -1,100 +1,199 @@
-# EXNO:4-Feature Scaling and Selection
-## AIM:
+# EXNO:4-DS
+# AIM:
 To read the given data and perform Feature Scaling and Feature Selection process and save the
 data to a file.
 
-## ALGORITHM:
+# ALGORITHM:
 STEP 1:Read the given Data.
 STEP 2:Clean the Data Set using Data Cleaning Process.
 STEP 3:Apply Feature Scaling for the feature in the data set.
 STEP 4:Apply Feature Selection for the feature in the data set.
 STEP 5:Save the data to the file.
 
-## FEATURE SCALING:
+# FEATURE SCALING:
 1. Standard Scaler: It is also called Z-score normalization. It calculates the z-score of each value and replaces the value with the calculated Z-score. The features are then rescaled with x̄ =0 and σ=1
 2. MinMaxScaler: It is also referred to as Normalization. The features are scaled between 0 and 1. Here, the mean value remains same as in Standardization, that is,0.
 3. Maximum absolute scaling: Maximum absolute scaling scales the data to its maximum value; that is,it divides every observation by the maximum value of the variable.The result of the preceding transformation is a distribution in which the values vary approximately within the range of -1 to 1.
 4. RobustScaler: RobustScaler transforms the feature vector by subtracting the median and then dividing by the interquartile range (75% value — 25% value).
 
-## FEATURE SELECTION:
+# FEATURE SELECTION:
 Feature selection is to find the best set of features that allows one to build useful models. Selecting the best features helps the model to perform well.
 The feature selection techniques used are:
 1.Filter Method
 2.Wrapper Method
 3.Embedded Method
 
-## Name: Jeevanesh
-## Register no: 212222243002
+# CODING AND OUTPUT:
+```
+NAME : Jeevanesh
+Register NO : 212222243002
+```
+```python
+import pandas as pd
+import numpy as np
+import seaborn as sns
 
-## CODING AND OUTPUT:
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/debe4715-16ed-4cf4-8de3-5302028347a6)
+data=pd.read_csv("/content/income(1) (1).csv",na_values=[ " ?"])
+data
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/b544c435-1cc1-4bc6-83c9-de2945348808)
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/f6eceda7-fb68-4a13-b8a0-b9907b84a80f)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/164fd356-fab7-4202-a4d9-c725dc7b4570)
+data.isnull().sum()
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/40b1ab98-5a1a-41a1-b943-102b7c4cabed)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/c501b15a-5931-4277-8676-f156c9edb7eb)
+missing=data[data.isnull().any(axis=1)]
+missing
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/a5fe88ab-c993-4c97-b249-cffea5a21a54)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/f8289319-0099-4711-b261-d471d222f36d)
+data2=data.dropna(axis=0)
+data2
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/40a10680-63a6-4f18-87ae-517ceda76ca9)
+```python
+sal=data["SalStat"]
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/ef4ee069-3220-4e27-af01-34e6372de96b)
+data2["SalStat"]=data["SalStat"].map({' less than or equal to 50,000':0,' greater than 50,000':1})
+print(data2['SalStat'])
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/e59ce957-1bdc-4455-97a5-15d66108b864)
+```python
+sal2=data2['SalStat']
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/51d16265-10f9-4b2e-a44d-5d4a39561d25)
+dfs=pd.concat([sal,sal2],axis=1)
+dfs
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/f8435063-835b-4eba-af2e-c46c67ea55e9)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/bc00af70-02b7-4ab1-98e9-8fe6eaf66cad)
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/34419558-3ff1-45f7-9b92-d6e59e69200f)
+data2
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/c034e83a-8e21-400e-bc40-103e3da86d0e)
+```python
+new_data=pd.get_dummies(data2, drop_first=True)
+new_data
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/f21819e3-a5bd-47e6-b1b7-9bc08b64bed9)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/febccf81-7272-4fab-b35e-b33c10bea1dc)
+columns_list=list(new_data.columns)
+print(columns_list)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/8af6f5ce-4d99-4ed6-9371-730aeaa5a56b)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/83007acb-755c-43ec-a955-00a4afb1ab4d)
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/df07d9fd-8041-4484-ae7f-05971ffcc622)
+features=list(set(columns_list)-set(['SalStat']))
+print(features)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/5f31a677-7d30-417a-8044-d5db741cafbf)
+```python
+y=new_data['SalStat'].values
+print(y)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/f4c779af-4c87-449e-9daa-be5d8d275212)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/1be0c7df-33ed-432f-b9ba-0c3460f611a1)
+x=new_data[features].values
+print(x)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/4154db03-4c87-4b98-a13b-964f19bee9b0)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/cf319aea-677e-4384-a3de-59db4287ca6a)
+train_x,test_x,train_y,test_y=train_test_split(x,y,test_size=0.3,random_state=0)
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/bf23a9b5-f929-41c0-83ef-87eb0017a7b4)
+KNN_classifier=KNeighborsClassifier(n_neighbors = 5)
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/61328959-eab1-42ae-b802-34ac3a39de2c)
+KNN_classifier.fit(train_x,train_y)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/e5e02520-eb39-436c-ac2e-e43048c1d672)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/6f93b288-9e22-48c5-a69a-562f2c4f0eca)
+prediction=KNN_classifier.predict(test_x)
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/0aa07cc1-9884-4164-a30f-aae298910411)
+confusionMatrix=confusion_matrix(test_y, prediction)
+print(confusionMatrix)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/a6eedfe3-aedd-4500-958f-6faafd54f464)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/172f40b4-abf6-4c17-a09e-0dafb37f9e6b)
+accuracy_score=accuracy_score(test_y,prediction)
+print(accuracy_score)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/0e56ff41-2f35-4d01-b479-53547391567b)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/55c69177-938a-4092-b348-bfc47cb06ff4)
+print("Misclassified Samples : %d" % (test_y !=prediction).sum())
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/4af5ed3f-362a-40c6-a438-c89f31584e51)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/e8d9168a-0880-41f1-9c68-3c1f8ac1ac14)
+data.shape
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/1986f990-26e6-4b42-acfc-b2a6e52f8042)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/f66dbb12-4a89-45ef-9f71-bae0f3024d91)
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, mutual_info_classif, f_classif
+data={
+    'Feature1': [1,2,3,4,5],
+    'Feature2': ['A','B','C','A','B'],
+    'Feature3': [0,1,1,0,1],
+    'Target'  : [0,1,1,0,1]
+}
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/c0f3f2a0-77c0-4553-a810-c3ddd2fe2dcd)
+df=pd.DataFrame(data)
+x=df[['Feature1','Feature3']]
+y=df[['Target']]
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/e4ede4c4-459a-49d1-80d1-74793fec5e86)
+selector=SelectKBest(score_func=mutual_info_classif,k=1)
+x_new=selector.fit_transform(x,y)
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/055e0910-32a5-45d4-af45-800095f95eaf)
+selected_feature_indices=selector.get_support(indices=True)
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/49004ac9-dc39-4299-b45c-5ba89e3e5c84)
+selected_features=x.columns[selected_feature_indices]
+print("Selected Features:")
+print(selected_features)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/20777b0d-3cdb-4ae9-80e4-1f76ed093191)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/6907fee4-1565-4e35-a401-1b1fb0c06696)
+import pandas as pd
+import numpy as np
+from scipy.stats import chi2_contingency
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/bb180d7a-e423-4efb-a24d-1f630cebb069)
+import seaborn as sns
+tips=sns.load_dataset('tips')
+tips.head()
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/6d6f7ff2-b1da-4568-9cd1-cb6fa9553cd6)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/af62bbfa-54e1-4a65-9ed0-a874bc7365ed)
+tips.time.unique()
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/f77bc757-8a31-4a5d-be15-5a447e6549c6)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/c5e7cb84-6f6a-40c3-bf62-18504562e0b4)
+contingency_table=pd.crosstab(tips['sex'],tips['time'])
+print(contingency_table)
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/06365e9f-f51b-4cf6-ab04-8a136726a025)
+```python
 
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/cdfab1d2-f445-4271-80dc-f763d6eb7484)
-
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/134793e8-e1c7-4b8b-9892-3fad4465fe4b)
-
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/b505cc2d-7119-4434-8359-88060930401f)
-
-![image](https://github.com/DHARINIPV/EXNO-4-DS/assets/119400845/09b32556-81e3-429c-bf14-b52656f4df7f)
-
-## RESULT:
-Thus the program to read the given data and perform Feature Scaling and Feature Selection process and save the data to a file is been executed.
+chi2,p,_,_=chi2_contingency(contingency_table)
+print(f"Chi-Square Statistics: {chi2}")
+print(f"P-Value: {p}")
+```
+![image](https://github.com/Yamunaasri/EXNO-4-DS/assets/115707860/6adc4da7-421c-458f-9ec6-f6158aa6f731)
+# RESULT:
+Thus, Feature selection and Feature scaling has been used on thegiven dataset.
